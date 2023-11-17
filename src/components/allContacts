@@ -1,0 +1,42 @@
+import { useEffect, useState } from "react"
+
+
+const AllContacts = () => {
+
+    const [allContactsData, setAllContactsData] = useState([]);
+
+    const getAllContactsData = async () =>{
+
+        try{
+
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/contacts/`,
+
+                {
+                    method: "GET",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                }
+
+            )
+
+            const data = await response.json();
+            setAllContactsData(data);
+
+        } catch(error){
+            console.log("Error while fetching all contacts", error);
+        }
+    }
+
+    useEffect(()=>{
+        getAllContactsData();
+    },[]);
+
+    return(
+        <div>
+            {allContactsData}
+        </div>
+    )
+}
+
+export default AllContacts
